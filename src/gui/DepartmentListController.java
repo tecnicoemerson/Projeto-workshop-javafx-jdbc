@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import application.Main;
 import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
@@ -40,13 +39,10 @@ public class DepartmentListController implements Initializable, DataChangeListen
 	private TableColumn<Department, String> tableColumnName;
 	@FXML
 	private TableColumn<Department, Department> tableColumnEDIT;
-
 	@FXML
 	private TableColumn<Department, Department> tableColumnREMOVE;
-
 	@FXML
 	private Button btNew;
-
 	private ObservableList<Department> obsList;
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
@@ -77,7 +73,6 @@ public class DepartmentListController implements Initializable, DataChangeListen
 		initEditButtons();
 		initRemoveButtons();
 	}
-
 	private void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -95,6 +90,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
@@ -119,12 +115,10 @@ public class DepartmentListController implements Initializable, DataChangeListen
 			}
 		});
 	}
-
 	private void initRemoveButtons() {
 		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnREMOVE.setCellFactory(param -> new TableCell<Department, Department>() {
 			private final Button button = new Button("remove");
-
 			@Override
 			protected void updateItem(Department obj, boolean empty) {
 				super.updateItem(obj, empty);
@@ -137,10 +131,8 @@ public class DepartmentListController implements Initializable, DataChangeListen
 			}
 		});
 	}
-
 	private void removeEntity(Department obj) {
 		Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure to delete?");
-
 		if (result.get() == ButtonType.OK) {
 			if (service == null) {
 				throw new IllegalStateException("Service was null");
